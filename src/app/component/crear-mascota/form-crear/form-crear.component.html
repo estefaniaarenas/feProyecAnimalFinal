@@ -1,0 +1,207 @@
+<div
+  (click)="onPress($event)"
+  [ngClass]="{ modal: true, fade: true, show: showModal }"
+>
+  <div id="outer" class="wrapper">
+    <form action="">
+      <div id="wizard" class="scroll">
+        <!-- SECTION 1 -->
+        <form [formGroup]="formModal" (ngSubmit)="crearMascota()">
+          <section>
+            <div class="form-header">
+              <div class="avartar">
+                <a href="#">
+                  <img src="images/avartar.png" alt="" />
+                </a>
+                <div class="avartar-picker">
+                  <input
+                    type="file"
+                    name="file-1[]"
+                    id="file-1"
+                    class="inputfile"
+                    data-multiple-caption="{count} files selected"
+                    multiple
+                  />
+                  <label for="file-1">
+                    <i class="bi bi-camera"></i>
+                    <span>Choose Picture</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-holder active">
+                  <input
+                    type="text"
+                    formControlName="nombre"
+                    required
+                    placeholder="Nombre"
+                    class="form-control"
+                  />
+                  <span
+                    *ngIf="this.formModal.get('nombre')?.errors?.['required']"
+                  >
+                    (El nombre no puede quedar vacío)
+                  </span>
+                  <span
+                    *ngIf="this.formModal.get('nombre')?.errors?.['minlength']"
+                  >
+                  </span>
+                </div>
+                <div class="form-holder">
+                  <h5 class="estado">Especie de la mascota</h5>
+                  <select
+                    class="form-control"
+                    formControlName="especie"
+                    required
+                  >
+                    <option value="" selected>SELECCIONAR</option>
+                    <option
+                      *ngFor="let especie of especies"
+                      value="{{ especie.value }}"
+                    >
+                      {{ especie.label }}
+                    </option>
+                  </select>
+                </div>
+                <!-- <div class="form-holder">
+                  <input
+                    type="text"
+                    formControlName="especie"
+                    required
+                    placeholder="Especie"
+                    class="form-control"
+                  />
+                  <span
+                    *ngIf="this.formModal.get('especie')?.errors?.['required']"
+                  >
+                    (Es necesario saber la especie)
+                  </span>
+                  <span
+                    *ngIf="this.formModal.get('especie')?.errors?.['minlength']"
+                  >
+                  </span>
+                </div> -->
+                <div class="form-holder">
+                  <h5 class="estado">Sexo de la mascota</h5>
+                  <select class="form-control" formControlName="sexo" required>
+                    <option value="" selected>SELECCIONAR</option>
+                    <option *ngFor="let sexo of sexos" value="{{ sexo.value }}">
+                      {{ sexo.label }}
+                    </option>
+                  </select>
+                </div>
+                <!-- <div class="form-holder">
+                  <input type="text"  formControlName="sexo"
+                  required placeholder="Sexo" class="form-control" />
+                  <span
+                    *ngIf="this.formModal.get('sexo')?.errors?.['required']"
+                  >
+                    (Es necesario saber el sexo de la mascota)
+                  </span>
+                  <span
+                    *ngIf="this.formModal.get('sexo')?.errors?.['minlength']"
+                  >
+                  </span>
+                </div> -->
+              </div>
+            </div>
+            <div class="form-holder">
+              <input
+                type="text"
+                formControlName="raza"
+                required
+                placeholder="Raza"
+                class="form-control"
+              />
+              <span *ngIf="this.formModal.get('raza')?.errors?.['required']">
+                (Es necesario saber la raza)
+              </span>
+              <span *ngIf="this.formModal.get('raza')?.errors?.['minlength']">
+              </span>
+            </div>
+
+            <div class="form-holder">
+              <h5 class="estado">¿Se encuentra esterilizado(a)?</h5>
+              <select
+                class="form-control"
+                formControlName="estadoDeEsterilizacion"
+                required
+              >
+                <option value="" selected>SELECCIONAR</option>
+                <option
+                  *ngFor="let estado of estados"
+                  value="{{ estado.value }}"
+                >
+                  {{ estado.label }}
+                </option>
+              </select>
+            </div>
+            <div class="form-holder">
+              <h5 class="estado">¿Cuenta con las vacunas completas?</h5>
+              <select
+                class="form-control"
+                formControlName="estadoDeVacunacion"
+                required
+              >
+                <option value="" selected>SELECCIONAR</option>
+                <option
+                  *ngFor="let estado of estados"
+                  value="{{ estado.value }}"
+                >
+                  {{ estado.label }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-holder">
+              <textarea
+                name="descripcionDeLaMascota"
+                formControlName="descripcionDeLaMascota"
+                requiredrows="20"
+                placeholder="Haz una pequeña descripción de la mascota"
+                cols="80"
+              ></textarea>
+            </div>
+
+            <!-- <div class="form-holder">
+              <input
+                type="text"
+                formControlName="descripcionDeLaMascota"
+                required
+                placeholder="Descripción de la mascota"
+                class="form-control"
+              />
+              <span
+                *ngIf="this.formModal.get('descripcion')?.errors?.['required']"
+              >
+                (Cuentanos un poco de la mascota)
+              </span>
+              <span
+                *ngIf="this.formModal.get('descripcion')?.errors?.['minlength']"
+              >
+              </span>
+            </div> -->
+            <label for="start" class="fNacimiento">Fecha de nacimiento:</label>
+
+            <input
+              class="fecha"
+              type="date"
+              id="start"
+              name="trip-start"
+              formControlName="fechaDeNacimiento"
+              required
+            />
+            <div class="container my-3 pl-5 d-flex flex-row">
+            <label>La edad de la mascota es:</label>&nbsp;
+           <p>{{ this.calcularEdad() }}</p>
+          </div>
+            <div class="conboton" >
+              <button type="submit" class="btn mt-4 be">Enviar</button>
+              
+          </div>
+          </section>
+        </form>
+      </div>
+    </form>
+  </div>
+</div>
